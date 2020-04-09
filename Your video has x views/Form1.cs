@@ -20,11 +20,13 @@ namespace Your_video_has_x_views
         string getVideoLikes(string url)
         {
             WebClient wc = new WebClient();
-            string resp = wc.DownloadString(textBox1.Text);
-            int a1 = resp.IndexOf("videoViewCountRenderer") + 58;
+            string resp = wc.DownloadString(url);
+            richTextBox2.Text = resp;
+            int a1 = resp.IndexOf("interactionCount") + 27;
             string b1 = resp.Substring(a1);
-            string b2 = b1.Substring(0, b1.IndexOf(" "));
-            return b2;
+            string b2 = b1.Substring(0, b1.IndexOf("\""));
+            int count = Convert.ToInt32(b2);
+            return count.ToString("N0");
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -95,7 +97,6 @@ namespace Your_video_has_x_views
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -122,5 +123,9 @@ namespace Your_video_has_x_views
             }
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            MessageBox.Show(getVideoLikes("https://www.youtube.com/watch?v=IHENIg8Se7M"));
+        }
     }
 }
